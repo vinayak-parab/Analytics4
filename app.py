@@ -18,7 +18,6 @@ system_info()
 warnings.filterwarnings('ignore')
 pred_class = []
 
-# DATA_PATH = "C:\Python_Projects\Analytics_4\SVW\Videos"
 DATA_PATH = "C:\Python_Projects\Analytics_4\deploy\SVW_dataset"
 
 classes_df = pd.read_csv("classes.csv")
@@ -30,7 +29,6 @@ data = VideoDataset(DATA_PATH)
 
 learner = VideoLearner(data, num_classes=30)
 
-# learner.load("C:/Users/parab/Analytics_4/checkpoints/r2plus1d_34_8_ig65m_003")
 learner.load("C:/Python_Projects/Analytics_4/deploy/model/r2plus1d_34_8_ig65m_003")
 
 app =Flask(__name__)
@@ -44,8 +42,6 @@ def prediction():
 
     vid = request.files['vid']
 
-    # print(vid)
-
     vid.save("vid.mp4")
 
     pred_class= learner.predict_video("vid.mp4")
@@ -54,8 +50,7 @@ def prediction():
 
     return render_template("prediction.html", data=pred_class)
 
-    # return render_template("prediction.html", data="bye")
-
 if __name__=="__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
     
