@@ -1,8 +1,8 @@
-torchvision==0.9.1
-torch==1.8.1
+http://download.pytorch.org/whl/cpu/torch-1.7.0%2Bcpu-cp38-cp38-linux_x86_64.whl
+http://download.pytorch.org/whl/cpu/torchvision-0.8.1%2Bcpu-cp38-cp38-linux_x86_64.whl
 decord==0.5.2
 matplotlib==3.3.2
-opencv_python==4.4.0.46
+opencv-python-headless>=4.1.2
 einops==0.3.0
 numpy==1.19.2
 pandas==1.1.3
