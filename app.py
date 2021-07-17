@@ -18,7 +18,7 @@ system_info()
 warnings.filterwarnings('ignore')
 pred_class = []
 
-DATA_PATH = "C:\Python_Projects\Analytics_4\deploy\SVW_dataset"
+DATA_PATH = "SVW_dataset"
 
 classes_df = pd.read_csv("classes.csv")
 classes = classes_df['Classes'].to_list()
