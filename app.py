@@ -20,7 +20,7 @@ pred_class = []
 
 DATA_PATH = "SVW_dataset"
 
-classes_df = pd.read_csv("classes.csv")
+classes_df = pd.read_csv("https://raw.githubusercontent.com/vinayak-parab/Analytics4/main/classes.csv",sep=',')
 classes = classes_df['Classes'].to_list()
 
 print(classes)
