@@ -18,9 +18,10 @@ system_info()
 warnings.filterwarnings('ignore')
 pred_class = []
 
-DATA_PATH = "SVW_dataset"
+DATA_PATH = "SVW_dataset/"
 
-classes_df = pd.read_csv("https://raw.githubusercontent.com/vinayak-parab/Analytics4/main/classes.csv",sep=',')
+# classes_df = pd.read_csv("https://raw.githubusercontent.com/vinayak-parab/Analytics4/main/classes.csv",sep=',')
+classes_df = pd.read_csv("classes.csv")
 classes = classes_df['Classes'].to_list()
 
 print(classes)
