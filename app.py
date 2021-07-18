@@ -18,9 +18,9 @@ system_info()
 warnings.filterwarnings('ignore')
 pred_class = []
 
-DATA_PATH = "C:\Python_Projects\Analytics_4\deploy\SVW_dataset"
+DATA_PATH = "SVW_dataset"
 
-classes_df = pd.read_csv("classes.csv")
+classes_df = pd.read_csv("https://raw.githubusercontent.com/vinayak-parab/Analytics4/main/classes.csv",sep=',')
 classes = classes_df['Classes'].to_list()
 
 print(classes)
@@ -29,7 +29,7 @@ data = VideoDataset(DATA_PATH)
 
 learner = VideoLearner(data, num_classes=30)
 
-learner.load("C:/Python_Projects/Analytics_4/deploy/model/r2plus1d_34_8_ig65m_003")
+learner.load("model/r2plus1d_34_8_ig65m_003")
 
 app =Flask(__name__)
 
