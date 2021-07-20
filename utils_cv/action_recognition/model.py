@@ -703,9 +703,22 @@ class VideoLearner(object):
         """ Save the model to a path on disk. """
         torch.save(self.model.state_dict(), model_path)
 
-    # def load(self, model_name: str, model_dir: str = "checkpoints") -> None:
-    def load(self, model_name: str, model_dir :str) -> None:
+    # # def load(self, model_name: str, model_dir: str = "checkpoints") -> None:
+    # def load(self, model_name: str, model_dir :str) -> None:
         
+    #     """
+    #     TODO accept epoch. If None, load the latest model.
+    #     :param model_name: Model name format should be 'name_0EE' where E is the epoch
+    #     :param model_dir: By default, 'checkpoints'
+    #     :return:
+    #     """
+    #     self.model.load_state_dict(
+    #         # torch.load(os.path.join(model_dir,f"{model_name}.pt"))
+    #         torch.load(os.path.join(model_dir,f"{model_name}.pt"),map_location='cpu')
+    #     )
+    #     print("saved model loaded successfully")
+
+    def load(self, model_name: str, model_dir: str = "checkpoints") -> None:
         """
         TODO accept epoch. If None, load the latest model.
         :param model_name: Model name format should be 'name_0EE' where E is the epoch
@@ -713,9 +726,7 @@ class VideoLearner(object):
         :return:
         """
         self.model.load_state_dict(
-            # torch.load(os.path.join(model_dir,f"{model_name}.pt"))
-            torch.load(os.path.join(model_dir,f"{model_name}.pt"),map_location='cpu')
+            torch.load(os.path.join(model_dir, f"{model_name}.pt"))
         )
-        print("saved model loaded successfully")
 
 
