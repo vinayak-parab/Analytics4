@@ -30,7 +30,7 @@ data = VideoDataset(DATA_PATH)
 
 learner = VideoLearner(data, num_classes=30)
 
-learner.load("model/r2plus1d_34_8_ig65m_003")
+learner.load("r2plus1d_34_8_ig65m_003","model/")
 
 app =Flask(__name__)
 
@@ -52,6 +52,5 @@ def prediction():
     return render_template("prediction.html", data=pred_class)
 
 if __name__=="__main__":
-    # app.run(host='127.0.0.1', port=port, debug=True)
     app.run(debug=True,host='0.0.0.0')
     
