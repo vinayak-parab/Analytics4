@@ -718,7 +718,9 @@ class VideoLearner(object):
     #     )
     #     print("saved model loaded successfully")
 
-    def load(self, model_name: str, model_dir: str = "checkpoints") -> None:
+    # def load(self, model_name: str, model_dir: str = "checkpoints") -> None:
+    def load(self, model_name: str, model_dir: str ) -> None:
+        
         """
         TODO accept epoch. If None, load the latest model.
         :param model_name: Model name format should be 'name_0EE' where E is the epoch
