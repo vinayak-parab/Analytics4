@@ -2,6 +2,7 @@
 # Licensed under the MIT License.
 
 from collections import OrderedDict
+from ntpath import join
 import os
 import warnings
 import numpy as np
@@ -554,178 +555,6 @@ class VideoLearner(object):
 
         return result
 
-    # def predict_frames(
-    #     self,
-    #     window: deque,
-    #     scores_cache: deque,
-    #     scores_sum: np.ndarray,
-    #     is_ready: list,
-    #     averaging_size: int,
-    #     score_threshold: float,
-    #     labels: List[str],
-    #     target_labels: List[str],
-    #     transforms: Compose,
-    #     update_println: Callable,
-    # ) -> None:
-    #     """ Predicts frames """
-    #     # set model device and to eval mode
-    #     self.model.to(torch_device())
-    #     self.model.eval()
-
-    #     # score
-    #     t = time()
-    #     scores = self._predict(window, transforms)
-    #     dur = time() - t
-
-    #     # Averaging scores across clips (dense prediction)
-    #     scores_cache.append(scores)
-    #     scores_sum += scores
-
-    #     if len(scores_cache) == averaging_size:
-    #         scores_avg = scores_sum / averaging_size
-
-    #         if len(labels) >= 5:
-    #             num_labels = 5
-    #         else:
-    #             num_labels = len(labels) - 1
-
-    #         top5_id_score_dict = {
-    #             i: scores_avg[i]
-    #             for i in (-scores_avg).argpartition(num_labels - 1)[
-    #                 :num_labels
-    #             ]
-    #         }
-    #         top5_label_score_dict = self._filter_labels(
-    #             top5_id_score_dict,
-    #             labels,
-    #             threshold=score_threshold,
-    #             target_labels=target_labels,
-    #         )
-    #         top5 = sorted(top5_label_score_dict.items(), key=lambda kv: -kv[1])
-
-    #         # fps and preds
-    #         println = (
-    #             f"{1 // dur} fps"
-    #             + "<p style='font-size:20px'>"
-    #             + "<br>".join([f"{k} ({v:.3f})" for k, v in top5])
-    #             + "</p>"
-    #         )
-
-    #         # Plot final results nicely
-    #         update_println(println)
-    #         scores_sum -= scores_cache.popleft()
-
-    #     # Inference done. Ready to run on the next frames.
-    #     window.popleft()
-    #     if is_ready:
-    #         is_ready[0] = True
-
-    # def predict_video(
-    #     self,
-    #     video_fpath: str,
-    #     labels: List[str] = None,
-    #     averaging_size: int = 5,
-    #     score_threshold: float = 0.025,
-    #     target_labels: List[str] = None,
-    #     transforms: Compose = None,
-    # ) -> None:
-    #     """Load video and show frames and inference results while displaying the results
-    #     """
-    #     # set up video reader
-    #     video_reader = decord.VideoReader(video_fpath)
-    #     print(f"Total frames = {len(video_reader)}")
-
-    #     # set up ipython jupyter display
-    #     d_video = IPython.display.display("", display_id=1)
-    #     d_caption = IPython.display.display("Preparing...", display_id=2)
-
-    #     # set vars
-    #     is_ready = [True]
-    #     list_top5 = []
-    #     video_top = []
-    #     window = deque()
-    #     scores_cache = deque()
-
-    #     # use labels if given, else see if we have labels from our dataset
-    #     if not labels:
-    #         if self.dataset.classes:
-    #             labels = self.dataset.classes
-    #         else:
-    #             raise ("No labels found, add labels argument.")
-    #     scores_sum = np.zeros(len(labels))
-
-    #     # set up transforms
-    #     if not transforms:
-    #         transforms = get_transforms(train=False)
-
-    #     # set up print function
-    #     def update_println(println):
-    #         # d_caption.update(IPython.display.HTML(println))
-    #         list_top5.append(println)
-
-    #     while True:
-    #         try:
-    #             frame = video_reader.next().asnumpy()
-    #             if len(frame.shape) != 3:
-    #                 break
-
-    #             # Start an inference thread when ready
-    #             if is_ready[0]:
-    #                 window.append(frame)
-    #                 if len(window) == self.sample_length:
-    #                     is_ready[0] = False
-    #                     Thread(
-    #                         target=self.predict_frames,
-    #                         args=(
-    #                             window,
-    #                             scores_cache,
-    #                             scores_sum,
-    #                             is_ready,
-    #                             averaging_size,
-    #                             score_threshold,
-    #                             labels,
-    #                             target_labels,
-    #                             transforms,
-    #                             update_println,
-    #                         ),
-    #                     ).start()
-
-    #             # Show video preview
-    #             f = io.BytesIO()
-    #             im = Image.fromarray(frame)
-    #             im.save(f, "jpeg")
-
-    #             # resize frames to avoid flicker for windows
-    #             w, h = frame.shape[0], frame.shape[1]
-    #             scale = 300.0 / max(w, h)
-    #             w = round(w * scale)
-    #             h = round(h * scale)
-    #             im = im.resize((h, w))
-
-    #             # d_video.update(IPython.display.Image(data=f.getvalue()))
-    #             video_top.append(f.getvalue())
-    #             sleep(0.03)
-    #         except Exception:
-    #             break
-        
-    #     return list_top5,video_top
-
-    # def save(self, model_path: Union[Path, str]) -> None:
-    #     """ Save the model to a path on disk. """
-    #     torch.save(self.model.state_dict(), model_path)
-
-    # def load(self, model_name: str, model_dir: str = "checkpoints") -> None:
-    #     """
-    #     TODO accept epoch. If None, load the latest model.
-    #     :param model_name: Model name format should be 'name_0EE' where E is the epoch
-    #     :param model_dir: By default, 'checkpoints'
-    #     :return:
-    #     """
-    #     self.model.load_state_dict(
-    #         torch.load(os.path.join(model_dir, f"{model_name}.pt"))
-    #     )
-
-
     def predict_frames(
         self,
         window: deque,
@@ -874,7 +703,9 @@ class VideoLearner(object):
         """ Save the model to a path on disk. """
         torch.save(self.model.state_dict(), model_path)
 
-    def load(self, model_name: str, model_dir: str = "checkpoints") -> None:
+    # def load(self, model_name: str, model_dir: str = "checkpoints") -> None:
+    def load(self, model_name: str, model_dir :str) -> None:
+        
         """
         TODO accept epoch. If None, load the latest model.
         :param model_name: Model name format should be 'name_0EE' where E is the epoch
@@ -882,7 +713,9 @@ class VideoLearner(object):
         :return:
         """
         self.model.load_state_dict(
-            torch.load(os.path.join(model_dir, f"{model_name}.pt"))
+            # torch.load(os.path.join(model_dir,f"{model_name}.pt"))
+            torch.load(os.path.join(model_dir,f"{model_name}.pt"),map_location='cpu')
         )
+        print("saved model loaded successfully")
 
 
