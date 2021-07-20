@@ -30,7 +30,9 @@ data = VideoDataset(DATA_PATH)
 
 learner = VideoLearner(data, num_classes=30)
 
-learner.load("r2plus1d_34_8_ig65m_003","model/")
+# learner.load("r2plus1d_34_8_ig65m_003","model/")
+learner.load("model/r2plus1d_34_8_ig65m_003")
+
 
 app =Flask(__name__)
 
