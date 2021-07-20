@@ -703,7 +703,7 @@ class VideoLearner(object):
         """ Save the model to a path on disk. """
         torch.save(self.model.state_dict(), model_path)
 
-    # # def load(self, model_name: str, model_dir: str = "checkpoints") -> None:
+    # def load(self, model_name: str, model_dir: str = "checkpoints") -> None:
     # def load(self, model_name: str, model_dir :str) -> None:
         
     #     """
@@ -718,8 +718,7 @@ class VideoLearner(object):
     #     )
     #     print("saved model loaded successfully")
 
-    # def load(self, model_name: str, model_dir: str = "checkpoints") -> None:
-    def load(self, model_name: str, model_dir: str ) -> None:
+    def load(self, model_name: str, model_dir: str = "checkpoints") -> None:
         
         """
         TODO accept epoch. If None, load the latest model.
