@@ -617,7 +617,9 @@ class VideoLearner(object):
             scores_sum -= scores_cache.popleft()
 
             # update_println(println)
-            update_println(top5)
+            # update_println(top5)
+
+            update_println(println)
             # print(top5)
             # yield(top5)
 
@@ -664,6 +666,10 @@ class VideoLearner(object):
 
         def update_println(top5):
             List_top5.append(top5)
+        
+        
+        def update_println(println):
+            List_top5.append(println)
             # print(List_top5)
             # print(top5_scores)
             # d_caption.update(IPython.display.HTML(println))
