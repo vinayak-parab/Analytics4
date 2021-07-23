@@ -48,9 +48,9 @@ def prediction():
 
     pred_class= learner.predict_video("vid.mp4")
 
-    print(pred_class) 
+    # print(pred_class) 
 
-    return render_template("prediction.html", data=pred_class)
+    return render_template("prediction1.html", data=pred_class)
 
 if __name__=="__main__":
     app.run(debug=True,host='0.0.0.0')
